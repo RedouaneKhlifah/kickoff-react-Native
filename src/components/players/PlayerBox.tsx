@@ -16,9 +16,9 @@ const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
     team_slug,
     age,
     estimated_value,
-    sci_potential_color,
     position_short_name,
-    sci_potential_smg,
+    sci_skill_color,
+    sci_skill_smg,
   } = player;
 
   const navigation = useNavigation<NavigationProp<RootScreenRoutesT>>();
@@ -26,32 +26,18 @@ const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
   return (
     <TouchableOpacity
       key="1"
-      style={styles.container}
-      onPress={() => navigation.navigate("PlayerDetails", { player: player })}
+      style={PlayerBoxStyles.container}
+      onPress={() =>
+        navigation.navigate("PlayerDetailsScreen", { player: player })
+      }
       activeOpacity={0.7}
     >
-      <Image
-        source={{ uri: team_picture }}
-        style={{
-          flex: 1,
-          resizeMode: "cover",
-          justifyContent: "center",
-          alignContent: "center",
-          position: "absolute",
-          width: "45%",
-          height: "75%",
-          opacity: 0.2,
-          right: 90,
-          marginTop: 20,
-        }}
-      ></Image>
-
-      <Image source={{ uri: player_picture }} style={styles.image} />
+      <Image source={{ uri: player_picture }} style={PlayerBoxStyles.image} />
       <View
         style={{
           width: 120,
           height: 25,
-          backgroundColor: "black",
+          backgroundColor: sci_skill_color,
           position: "absolute",
           top: "10%",
           right: "0%",
@@ -66,7 +52,7 @@ const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
         style={{
           width: 100,
           height: 18,
-          backgroundColor: sci_potential_color,
+          backgroundColor: sci_skill_color,
           position: "absolute",
           top: "25%",
           right: "1%",
@@ -75,25 +61,30 @@ const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
           alignItems: "center",
         }}
       >
-        <Text style={{ color: "white" }}>{sci_potential_smg}</Text>
+        <Text style={{ color: "white" }}>{sci_skill_smg}</Text>
       </View>
-      <View style={styles.content}>
-        <View style={styles.row}>
-          <Text style={styles.playerName}>{player_name}</Text>
-          <View style={styles.clubContainer}>
-            <Image source={{ uri: team_picture }} style={styles.icon} />
-            <Text style={styles.clubName}>{team_slug}</Text>
+      <View style={PlayerBoxStyles.content}>
+        <View style={PlayerBoxStyles.row}>
+          <Text style={PlayerBoxStyles.playerName}>{player_name}</Text>
+          <View style={PlayerBoxStyles.clubContainer}>
+            <Image
+              source={{ uri: team_picture }}
+              style={PlayerBoxStyles.icon}
+            />
+            <Text style={PlayerBoxStyles.clubName}>{team_slug}</Text>
           </View>
         </View>
-        <Text style={styles.location}>
+        <Text style={PlayerBoxStyles.location}>
           <Icon name="flag" size={15} color="black" />
           {country_name}
         </Text>
-        <View style={styles.row}>
-          <View style={styles.awardContainer}>
-            <Text style={styles.award}>{estimated_value}</Text>
+        <View style={PlayerBoxStyles.row}>
+          <View style={PlayerBoxStyles.awardContainer}>
+            <Text style={[PlayerBoxStyles.award, { color: sci_skill_color }]}>
+              {estimated_value}
+            </Text>
           </View>
-          <Text style={styles.year}>Age : {age}</Text>
+          <Text style={PlayerBoxStyles.year}>Age : {age}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -102,7 +93,7 @@ const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
 
 export default PlayerBox;
 
-const styles = StyleSheet.create({
+export const PlayerBoxStyles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     borderRadius: 10,
@@ -165,7 +156,6 @@ const styles = StyleSheet.create({
   },
   award: {
     fontSize: 20,
-    color: "green",
     fontWeight: "bold",
   },
   year: {

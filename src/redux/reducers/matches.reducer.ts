@@ -1,7 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   Imatch,
-  Tournament,
   UniqueTournament,
 } from "../../types/api.Interface";
 import { getAllRecords } from "../../api/Axios";
