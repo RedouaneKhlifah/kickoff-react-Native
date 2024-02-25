@@ -1,10 +1,19 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
+import Players from "../components/players/Players";
+import { useAppDispatch } from "../Hooks/redux.hooks";
+import { fetchPlayers } from "../redux/reducers/Playeres.reducer";
 
 const PlayerScreen = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPlayers());
+  }, [dispatch]);
+
   return (
     <View>
-      <Text>Player</Text>
+      <Players />
     </View>
   );
 };
