@@ -1,17 +1,13 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootScreenRoutesT } from "../types/routesT";
-import { PlayerBoxStyles } from "../components/players/PlayerBox";
 import Icon from "react-native-vector-icons/Ionicons";
+import { IPlayer } from "../../types/api.Interface";
 
-type PlayerDetailsScreenProps = NativeStackScreenProps<
-  RootScreenRoutesT,
-  "PlayerDetailsScreen"
->;
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootScreenRoutesT } from "../../types/routesT";
 
-const PlayerdetailsScreen: React.FC<PlayerDetailsScreenProps> = ({ route }) => {
-  const { player } = route.params;
+const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
   const {
     player_name,
     country_name,
@@ -25,8 +21,17 @@ const PlayerdetailsScreen: React.FC<PlayerDetailsScreenProps> = ({ route }) => {
     sci_skill_smg,
   } = player;
 
+  const navigation = useNavigation<NavigationProp<RootScreenRoutesT>>();
+
   return (
-    <View style={PlayerBoxStyles.container}>
+    <TouchableOpacity
+      key="1"
+      style={PlayerBoxStyles.container}
+      onPress={() =>
+        navigation.navigate("PlayerDetailsScreen", { player: player })
+      }
+      activeOpacity={0.7}
+    >
       <Image source={{ uri: player_picture }} style={PlayerBoxStyles.image} />
       <View
         style={{
@@ -82,8 +87,80 @@ const PlayerdetailsScreen: React.FC<PlayerDetailsScreenProps> = ({ route }) => {
           <Text style={PlayerBoxStyles.year}>Age : {age}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-export default PlayerdetailsScreen;
+export default PlayerBox;
+
+export const PlayerBoxStyles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    overflow: "hidden",
+    marginTop: 4,
+    width: "95%",
+    alignSelf: "center",
+    shadowColor: "rgba(0, 0, 0, 0.2)",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    aspectRatio: 1,
+    resizeMode: "cover",
+    marginTop: 3,
+  },
+  content: {
+    padding: 16,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  playerName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "black",
+  },
+  clubContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 4,
+  },
+  clubName: {
+    fontSize: 12,
+    textTransform: "uppercase",
+    color: "black",
+  },
+  location: {
+    fontSize: 12,
+    color: "gray",
+    marginBottom: 8,
+  },
+  awardContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  award: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  year: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "black",
+  },
+});
