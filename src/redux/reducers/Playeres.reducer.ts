@@ -21,7 +21,7 @@ export const fetchPlayers = createAsyncThunk<IPlayer[], void>(
       const response = await getAllRecords(
         "https://www.footballtransfers.com/en/players/actions/overview/overview"
       );
-      return response.data.uniqueTournaments;
+      return response.data.records;
     } catch (error) {
       // Use `rejectWithValue` to handle errors
       if (axios.isAxiosError(error)) {

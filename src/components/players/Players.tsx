@@ -1,8 +1,9 @@
 import { View, Text, FlatList } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IPlayer } from "../../types/api.Interface";
 import PlayerBox from "./PlayerBox";
 import { useAppSelector } from "../../Hooks/redux.hooks";
+import SearchInput from "./SearchInput";
 
 const records = [
   {
@@ -30,17 +31,32 @@ const records = [
   },
 ];
 const Players = () => {
-  const players = useAppSelector((state) => state.palyers.records);
+  let players = useAppSelector((state) => state.palyers.records);
+  const [filteredPlayers, setFilteredPlayers] = useState<IPlayer[]>(players);
+
+  const [text, onChangeText] = useState<string>("");
+
+  useEffect(() => {
+    setFilteredPlayers(
+      players.filter((player) =>
+        player.player_name.toLowerCase().includes(text.toLowerCase())
+      )
+    );
+  }, [text, players]);
 
   const renderItem = ({ item }: { item: IPlayer }) => (
     <PlayerBox player={item} />
   );
+
   return (
-    <FlatList
-      data={records}
-      keyExtractor={(item: IPlayer) => item.id.toString()}
-      renderItem={renderItem}
-    />
+    <>
+      <SearchInput text={text} onChangeText={onChangeText} />
+      <FlatList
+        data={filteredPlayers}
+        keyExtractor={(item: IPlayer) => item.id.toString()}
+        renderItem={renderItem}
+      />
+    </>
   );
 };
 
