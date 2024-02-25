@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { RootScreenRoutesT } from "../types/routesT";
 import { DrawerNavigator } from "./DrawerNavigator";
 import MatcheDetailsScreen from "../screen/MatchDetailsScreen";
+import PlayerdetailsScreen from "../screen/PlayerdetailsScreen";
 
 const Stack = createNativeStackNavigator<RootScreenRoutesT>();
 
@@ -25,6 +26,16 @@ export const StackNavigator: React.FC = () => {
               route.params.match.homeTeam.name +
               " vs " +
               route.params.match.awayTeam.name,
+            headerStyle: {
+              backgroundColor: "white",
+            },
+          })}
+        />
+        <Stack.Screen
+          name="PlayerDetailsScreen"
+          component={PlayerdetailsScreen}
+          options={({ route }) => ({
+            title: route.params.player.player_name,
             headerStyle: {
               backgroundColor: "white",
             },
