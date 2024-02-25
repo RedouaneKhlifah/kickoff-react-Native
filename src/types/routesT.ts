@@ -1,7 +1,9 @@
+import { IPlayer, Imatch } from "./api.Interface";
+
 export type RootScreenRoutesT = {
   Home: undefined;
-  playerDetails: undefined;
-  matcheDetails: undefined;
+  PlayerDetails: { player: IPlayer };
+  MatcheDetailsScreen: { match: Imatch };
   matches: undefined;
   players: undefined;
 };

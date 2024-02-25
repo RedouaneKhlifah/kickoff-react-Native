@@ -4,6 +4,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { IPlayer } from "../../types/api.Interface";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootScreenRoutesT } from "../../types/routesT";
 
 const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
   const {
@@ -17,13 +19,15 @@ const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
     sci_potential_color,
     position_short_name,
     sci_potential_smg,
-    team_short_name,
   } = player;
+
+  const navigation = useNavigation<NavigationProp<RootScreenRoutesT>>();
+
   return (
     <TouchableOpacity
       key="1"
       style={styles.container}
-      onPress={() => console.log("pressed")}
+      onPress={() => navigation.navigate("PlayerDetails", { player: player })}
       activeOpacity={0.7}
     >
       <Image
@@ -41,22 +45,6 @@ const PlayerBox: React.FC<{ player: IPlayer }> = ({ player }) => {
           marginTop: 20,
         }}
       ></Image>
-
-      {/* <Image
-        source={require("../assets/images/5581926_3631-removebg-preview (1).png")}
-        style={{
-          flex: 1,
-          resizeMode: "cover",
-          justifyContent: "center",
-          alignContent: "center",
-          position: "absolute",
-          width: "50%",
-          height: "100%",
-          opacity: 0.8,
-          right: 0,
-          marginTop: 10,
-        }}
-      ></Image> */}
 
       <Image source={{ uri: player_picture }} style={styles.image} />
       <View

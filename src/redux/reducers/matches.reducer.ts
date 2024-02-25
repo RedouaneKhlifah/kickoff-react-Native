@@ -15,8 +15,10 @@ export interface IMatchReducer {
   league_error: string;
   matches: Imatch[];
   allMatches: Imatch[];
+  favourits: Imatch[];
   leagues: UniqueTournament[];
   selectedLeague: UniqueTournament | null;
+  selectedMatch: Imatch | null;
 }
 const initialState: IMatchReducer = {
   matches: [],
@@ -27,6 +29,8 @@ const initialState: IMatchReducer = {
   league_isLoading: false,
   league_error: "",
   selectedLeague: null,
+  favourits: [],
+  selectedMatch: null,
 };
 
 export const fetchALLMatches = createAsyncThunk<Imatch[], void>(

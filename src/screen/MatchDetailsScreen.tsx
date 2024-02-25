@@ -1,36 +1,38 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
+import { View, Text, StyleSheet, Image } from "react-native";
 import React from "react";
-import { Imatch } from "../../types/api.Interface";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootScreenRoutesT } from "../../types/routesT";
+import { Imatch } from "../types/api.Interface";
+import Icon from "react-native-vector-icons/Ionicons";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootScreenRoutesT } from "../types/routesT";
 
-const MatchBox: React.FC<{ match: Imatch }> = ({ match }) => {
+type MatchDetailsScreenProps = NativeStackScreenProps<
+  RootScreenRoutesT,
+  "MatcheDetailsScreen"
+>;
+
+const MatcheDetailsScreen: React.FC<MatchDetailsScreenProps> = ({ route }) => {
+  const { match } = route.params;
   const {
-    tournament,
     homeTeam,
     awayTeam,
-    startTimestamp,
     homeScore,
     awayScore,
+    tournament,
+    startTimestamp,
+    season,
   } = match;
   const date = new Date(Number(startTimestamp * 1000));
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
   const formattedTime = `${hours}:${minutes}`;
 
-  const navigation = useNavigation<NavigationProp<RootScreenRoutesT>>();
-
   return (
-    <Pressable
+    <View
       style={{
         justifyContent: "center",
         alignItems: "center",
         marginVertical: 10,
       }}
-      onPress={() =>
-        navigation.navigate("MatcheDetailsScreen", { match: match })
-      }
     >
       <View style={styles.container}>
         <View
@@ -108,11 +110,9 @@ const MatchBox: React.FC<{ match: Imatch }> = ({ match }) => {
           </View>
         </View>
       </View>
-    </Pressable>
+    </View>
   );
 };
-
-export default MatchBox;
 
 const styles = StyleSheet.create({
   container: {
@@ -156,3 +156,5 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
 });
+
+export default MatcheDetailsScreen;
